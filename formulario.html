@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Validando formularios con Angular.js</title>
+	<link rel="stylesheet" href="materialize/css/materialize.min.css">
+	<style>
+		input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty{border-bottom: 1px solid #D25349;}
+		input.ng-valid.ng-dirty, textarea.ng-valid.ng-dirty{border-bottom: 2px solid #019739;}
+	</style>
+	<script src="angular.min.js"></script>
+	<script src="angular-messages.min.js"></script>
+	<script src="materialize/js/jquery-latest.js"></script>
+	<script src="materialize/js/materialize.min.js"></script>
+	<script>
+		angular.module('messages', ['ngMessages']);
+	</script>
+</head>
+<body ng-app="messages">
+	<div class="container">
+		<h3>Ingrese sus datos</h3>
+	<form name="registro" novalidate>
+		<div class="row">
+			<section class="input-field col s12 m6">
+				<label for="nombre">Nombre:</label>
+				<input type="text" ng-model="data.nombre" name="nombre" required pattern="[ñáéíóúA-Za-z ]+">
+		  	<div ng-messages="registro.nombre.$error" ng-messages-include="errores.html" ng-hide="registro.nombre.$pristine"></div>
+			</section>
+			<section class="input-field col s12 m6">
+				<label for="apellido">Apellido:</label>
+				<input type="text" ng-model="data.apellido" name="apellido" required pattern="[ñáéíóúA-Za-z ]+">
+		  	<div ng-messages="registro.apellido.$error" ng-messages-include="errores.html" ng-hide="registro.apellido.$pristine"></div>
+			</section>
+		</div>
+		<div class="row">
+			<section class="input-field col s12">
+				<label for="direccion">Dirección:</label>
+				<textarea class="materialize-textarea" ng-model="data.direccion" name="direccion" required pattern="[ñáéíóú,.\w ]+"></textarea>
+		  	<div ng-messages="registro.direccion.$error" ng-messages-include="errores.html" ng-hide="registro.direccion.$pristine"></div>
+			</section>
+		</div>
+		<div class="row">
+			<section class="input-field col s12 m9">
+				<label for="correo">Email: </label>
+				<input type="email" ng-model="data.correo" name="correo" required>
+		  	<div ng-messages="registro.correo.$error" ng-messages-include="errores.html" ng-hide="registro.correo.$pristine">
+		  		<div ng-message="email" class="err red darken-2 center-align white-text">Debe ingresar un correo válido</div>
+		  	</div>
+			</section>
+			<section class="input-field col s12 m3">
+				<label for="edad">Edad:</label>
+				<input type="number" ng-model="data.edad" name="edad" required min="0">
+		  	<div ng-messages="registro.edad.$error" ng-messages-include="errores.html" ng-hide="registro.edad.$pristine">
+		  		<div ng-message="min" class="err red darken-2 center-align white-text">Edad no permitida</div>
+		  	</div>
+			</section>
+		</div>
+		<div class="row">
+			<section class="input-field col s12 m6">
+				<input class="with-gap" type="radio" ng-model="data.sexo" name="sexo" id="sexo_M" value="M" required>
+				<label for="sexo_M">Masculino</label><br>
+				<input class="with-gap" type="radio" ng-model="data.sexo" name="sexo" id="sexo_F" value="F" required>
+				<label for="sexo_F">Femenino</label>
+		  	<div ng-messages="registro.sexo.$error" ng-messages-include="errores.html" ng-hide="registro.sexo.$pristine"></div>
+			</section>
+			<section class="input-field col s12 m6">
+				<input type="checkbox" ng-model="data.acepto" name="acepto" id="acepto" required>
+				<label for="acepto">Acepto y quiero continuar</label><br><br>
+		  	<div ng-messages="registro.acepto.$error" ng-messages-include="errores.html" ng-hide="registro.acepto.$pristine"></div>
+			</section>
+		</div>
+		<button ng-disabled="registro.$invalid" class="btn waves-effect waves-light" type="submit">Confirmar
+			<i class="mdi-content-send right"></i>
+		</button>
+	</form>
+	</div>
+</body>
+</html>
